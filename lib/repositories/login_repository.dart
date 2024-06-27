@@ -16,7 +16,7 @@ class LoginRepository {
     final response = await http.post(
       //Uri.parse('http://localhost:8000/api/login'),
       // Uri.parse("https://webhook.site/34630feb-d6a0-4fbb-b26e-28588c6485d0"),
-      Uri.parse('$baseUrl/api/login'),
+      Uri.parse('$baseUrl/api/auth/login/'),
 
       //followRedirects: false,
       headers: {

@@ -14,17 +14,17 @@ class StudentAssignedCubit extends Cubit<StudentAssignedState> {
     try {
        final token = await getTokenFromSharedPreferences();
       final response = await http.get(
-        Uri.parse('$baseUrl/api/assign/$student_id'),
+        Uri.parse('$baseUrl/api/books/assigned-books/student/$student_id'),
         headers: {'Authorization': 'Bearer $token'},
       );
 print(response.body);
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
-        final List<dynamic> studentAssignedList = jsonData['assignments'];
+        final List<dynamic> studentAssignedList = jsonData;
         final studentAssigneds = studentAssignedList.map((json) => StudentAssignedModel.fromJson(json)).toList();
         emit(StudentAssignedLoaded(studentAssigneds));
       } else {
-        emit(StudentAssignedError('Failed to load studentAssigneds'));
+        emit(StudentAssignedError('Failed to load assigned books'));
       }
     } catch (e) {
       emit(StudentAssignedError('Error: $e'));
@@ -33,6 +33,6 @@ print(response.body);
 
   Future<String> getTokenFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token') ?? '';
+    return prefs.getString('access') ?? '';
   }
 }

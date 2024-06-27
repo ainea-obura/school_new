@@ -20,7 +20,7 @@ class BookCubit extends Cubit<BookState> {
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
-        final List<dynamic> bookList = jsonData['books'];
+        final List<dynamic> bookList = jsonData;
         final books = bookList.map((json) => BookModel.fromJson(json)).toList();
         emit(BookLoaded(books));
       } else {
@@ -33,6 +33,6 @@ class BookCubit extends Cubit<BookState> {
 
   Future<String> getTokenFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token') ?? '';
+    return prefs.getString('access') ?? '';
   }
 }

@@ -57,13 +57,13 @@ class _ClearPageState extends State<ClearPage> {
                                   Column(
                                     children: [
                                       Text(
-                                        studentAssigned[index].bookName ,
+                                        studentAssigned[index].book.toString(),
                                         style: const TextStyle(
                                           fontSize: 24.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Text('Book No: ${studentAssigned[index].bookNo}'),
+                                      Text('Book No: ${studentAssigned[index].book.toString()}'),
                                       // Text(
                                       //     'Class: ${student.form} ${student.stream}'),
                                     ],
@@ -83,8 +83,8 @@ class _ClearPageState extends State<ClearPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => clearConfirm(
-                        bookName: _selectedStudentAssigned!.bookName,
-                        bookNo: _selectedStudentAssigned!.bookNo,
+                        bookName: _selectedStudentAssigned!.book.toString(),
+                        bookNo: _selectedStudentAssigned!.book.toString(),
                         assignId: _selectedStudentAssigned!.id,
                       ),
                     ),

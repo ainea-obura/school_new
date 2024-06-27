@@ -6,19 +6,17 @@ import '../constants.dart';
 
 class AssignmentRepository {
   Future<Map<String, dynamic>> assignBook({
-    required String bookName,
     required String bookNo,
     required int studentId,
     required int subjectId,
   }) async {
     final token = await getTokenFromSharedPreferences();
-    final Uri url = Uri.parse('$baseUrl/api/assign/create');
-    //final url = Uri.parse('https://webhook.site/1e41b6fd-f7c1-401a-baa4-05186fb29f9a');
+    final Uri url = Uri.parse('$baseUrl/api/books/assign/');
+    // final url = Uri.parse('https://webhook.site/8d5f1899-e6c4-49c0-87da-178796e43d8b');
     final Map<String, dynamic> body = {
-      "book_name": bookName,
       "book_no": bookNo,
-      "student_id": studentId,
-      "subject_id": subjectId,
+      "student": studentId,
+      "book": subjectId,
     };
 
     final response = await http.post(
@@ -30,7 +28,7 @@ class AssignmentRepository {
       body: json.encode(body),
     );
     print(response.body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201 || response.statusCode == 200) {
       return json.decode(response.body);
     } else if (response.statusCode == 400) {
       // final errorMessage = json.decode(response.body)['description'];
@@ -43,6 +41,6 @@ class AssignmentRepository {
 
   Future<String> getTokenFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token') ?? '';
+    return prefs.getString('access') ?? '';
   }
 }

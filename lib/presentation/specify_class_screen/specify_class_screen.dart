@@ -48,6 +48,9 @@ class _SpecifyClassScreenState extends State<SpecifyClassScreen> {
     _streamBloc.add(LoadStreams());
     _subjectBloc = BlocProvider.of<SubjectBloc>(context);
     _subjectBloc.add(LoadSubjects());
+
+    _selectedStream = null;
+    _selectedSubject = null;
   }
 
   // @override
@@ -164,55 +167,80 @@ class _SpecifyClassScreenState extends State<SpecifyClassScreen> {
           //   },
           // ),
 
-          BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
-              selector: (state) => state.specifyClassModelObj,
-              builder: (context, specifyClassModelObj) {
-                return BlocBuilder<StreamBloc, StreamState>(
-                  builder: (context, state) {
-                    if (state is StreamLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (state is StreamLoaded) {
-                      final streams = state.streams;
-                      return DropdownButtonFormField<StreamModel>(
-                        value: null, // Initially selected value
-                        items: streams
-                            .map((stream) => DropdownMenuItem<StreamModel>(
-                                  value: stream,
-                                  child: Text(stream.name),
-                                ))
-                            .toList(),
-                        onChanged: (stream) {
-                          setState(() {
-                            _selectedStream = stream!;
-                          });
-                          // Handle selected stream
-                          print('Selected stream: ${stream!.name}');
-                        },
-                      );
-                    } else if (state is StreamError) {
-                      return Text(state.error);
-                    } else {
-                      return const Text('Something went wrong!');
-                    }
-                  },
-                );
-
-                // return CustomDropDown(
-                //     hintText: "lbl_select_stream".tr,
-                //     items: specifyClassModelObj?.dropdownItemList ?? [],
-                //     borderDecoration: DropDownStyleHelper.underLineGray,
-                //     onChanged: (value) {
-                //       context
-                //           .read<SpecifyClassBloc>()
-                //           .add(ChangeDropDownEvent(value: value));
-                //     });
-              }),
+BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
+  selector: (state) => state.specifyClassModelObj,
+  builder: (context, specifyClassModelObj) {
+    return BlocBuilder<StreamBloc, StreamState>(
+      builder: (context, state) {
+        if (state is StreamLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is StreamLoaded) {
+          final streams = state.streams;
+          return DropdownButtonFormField<StreamModel>(
+            value: _selectedStream,
+            items: streams
+                .map((stream) => DropdownMenuItem<StreamModel>(
+                      value: stream,
+                      child: Text(stream.name),
+                    ))
+                .toList(),
+            onChanged: (stream) {
+              setState(() {
+                _selectedStream = stream;
+              });
+              print('Selected stream: ${stream!.name}');
+            },
+          );
+        } else if (state is StreamError) {
+          return Text(state.error);
+        } else {
+          return const Text('Something went wrong!');
+        }
+      },
+    );
+  },
+),
+          // BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
+          //     selector: (state) => state.specifyClassModelObj,
+          //     builder: (context, specifyClassModelObj) {
+          //       return BlocBuilder<StreamBloc, StreamState>(
+          //         builder: (context, state) {
+          //           if (state is StreamLoading) {
+          //             return const Center(child: CircularProgressIndicator());
+          //           } else if (state is StreamLoaded) {
+          //             final streams = state.streams;
+          //             return DropdownButtonFormField<StreamModel>(
+          //               value: null, // Initially selected value
+          //               items: streams
+          //                   .map((stream) => DropdownMenuItem<StreamModel>(
+          //                         value: stream,
+          //                         child: Text(stream.name),
+          //                       ))
+          //                   .toList(),
+          //               onChanged: (stream) {
+          //                 setState(() {
+          //                   _selectedStream = stream!;
+          //                 });
+          //                 // Handle selected stream
+          //                 print('Selected stream: ${stream!.name}');
+          //               },
+          //             );
+          //           } else if (state is StreamError) {
+          //             return Text(state.error);
+          //           } else {
+          //             return const Text('Something went wrong!');
+          //           }
+          //         },
+          //       );
+          //     }),
           SizedBox(height: 21.v),
           Align(
               alignment: Alignment.centerLeft,
               child: Text("lbl_select_subject".tr,
                   style: theme.textTheme.bodySmall)),
           SizedBox(height: 6.v),
+
+
 
           BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
               selector: (state) => state.specifyClassModelObj,
@@ -247,29 +275,8 @@ class _SpecifyClassScreenState extends State<SpecifyClassScreen> {
                   },
                 );
 
-                // return CustomDropDown(
-                //     hintText: "lbl_select_stream".tr,
-                //     items: specifyClassModelObj?.dropdownItemList ?? [],
-                //     borderDecoration: DropDownStyleHelper.underLineGray,
-                //     onChanged: (value) {
-                //       context
-                //           .read<SpecifyClassBloc>()
-                //           .add(ChangeDropDownEvent(value: value));
-                //     });
               }),
-          // BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
-          //     selector: (state) => state.specifyClassModelObj,
-          //     builder: (context, specifyClassModelObj) {
-          //       return CustomDropDown(
-          //           hintText: "lbl_select_subject".tr,
-          //           items: specifyClassModelObj?.dropdownItemList1 ?? [],
-          //           borderDecoration: DropDownStyleHelper.underLineGray,
-          //           onChanged: (value) {
-          //             context
-          //                 .read<SpecifyClassBloc>()
-          //                 .add(ChangeDropDown1Event(value: value));
-          //           });
-          //     }),
+          
           SizedBox(height: 57.v),
           CustomElevatedButton(
             onPressed: ()  {

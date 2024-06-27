@@ -11,7 +11,6 @@ class AssignCubit extends Cubit<AssignState> {
 
   Future<void> assignBook({
    
-    required String bookName,
     required String bookNo,
     required int studentId,
     required int subjectId,
@@ -19,8 +18,7 @@ class AssignCubit extends Cubit<AssignState> {
     try {
       emit(AssignLoading());
       final assignment = await _assignmentRepository.assignBook(
-      
-        bookName: bookName,
+    
         bookNo: bookNo,
         studentId: studentId,
         subjectId: subjectId,

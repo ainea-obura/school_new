@@ -98,7 +98,14 @@ class ElevenItemWidget extends StatelessWidget {
                 child: Container(
                   width: 100, // Adjust the width as needed
                   height: 100,
-                  child: Text('logout'),
+                  child: Card(
+                            child: InkWell(
+                              onTap: () {
+                                // logout(); // Call the logout function on tap
+                              },
+                              child: const Center(child: Text('Logout')),
+                            ),
+                          ),
                   //   child: _loggingOut
                   //       ? const Center(
                   //           child:

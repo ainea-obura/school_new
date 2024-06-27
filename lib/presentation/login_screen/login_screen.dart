@@ -216,9 +216,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _saveUserDetails(User user) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', user.accessToken);
-    await prefs.setInt('userId', user.user.id);
-    await prefs.setString('name', user.user.name);
-    await prefs.setString('email', user.user.email);
+    await prefs.setString('access', user.access);
+    await prefs.setString('refresh', user.refresh);
+    // await prefs.setString('name', user.user.name);
+    // await prefs.setString('email', user.user.email);
   }
 }

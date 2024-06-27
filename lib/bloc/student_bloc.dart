@@ -31,6 +31,6 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
   Future<String> getTokenFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token') ?? '';
+    return prefs.getString('access') ?? '';
   }
 }

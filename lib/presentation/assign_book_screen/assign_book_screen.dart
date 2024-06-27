@@ -94,7 +94,7 @@ class _AssignBookScreenState extends State<AssignBookScreen> {
             child: Row(children: [
               AppbarTitle(text: "lbl_assigning_to".tr),
               AppbarTitle(
-                  text: "${widget.student.fname} ${widget.student.lname}".tr,
+                  text: "${widget.student.firstName} ${widget.student.lastName}".tr,
                   margin: EdgeInsets.only(left: 20.h))
             ])));
   }
@@ -152,22 +152,22 @@ class _AssignBookScreenState extends State<AssignBookScreen> {
                       final books = state.Books;
                       final filteredBooks = books
                           .where(
-                              (book) => widget.subject.id == book.subjectId)
+                              (book) => widget.subject.id == book.id)
                           .toList();
                       final List<DropdownMenuItem<String>> dropdownItems =
                           filteredBooks.map((book) {
                         return DropdownMenuItem(
-                          value: book.name,
-                          child: Text(book.name),
+                          value: book.bookTitle,
+                          child: Text(book.bookTitle),
                         );
                       }).toList();
                 
                       void onChanged(String? selectedBookName) {
                         setState(() {
                           _selectedBook = filteredBooks.firstWhere(
-                              (book) => book.name == selectedBookName);
+                              (book) => book.bookTitle == selectedBookName);
                           if (_selectedBook != null) {
-                            print('Selected Book: ${_selectedBook!.name}');
+                            print('Selected Book: ${_selectedBook!.bookTitle}');
                           }
                         });
                       }
@@ -200,7 +200,7 @@ class _AssignBookScreenState extends State<AssignBookScreen> {
                             items: dropdownItems,
                             onChanged: onChanged,
                             value: _selectedBook
-                                ?.name, // Set the selected value
+                                ?.bookTitle, // Set the selected value
                             hint: const Text('Select a book'),
                           ),
                           // if (_selectedBook != null)
@@ -291,8 +291,7 @@ class _AssignBookScreenState extends State<AssignBookScreen> {
                 onPressed: (){
                   if (_selectedBook != null) {
                         _assignCubit.assignBook(
-                          bookName:
-                              _selectedBook!.name, // Get the selected book name
+                        // Get the selected book name
                           bookNo: bookController
                               .text, 
                           studentId: widget.student

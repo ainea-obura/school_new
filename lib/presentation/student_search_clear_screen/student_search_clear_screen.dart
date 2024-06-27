@@ -164,7 +164,7 @@ class _StudentSearchClearScreenState extends State<StudentSearchClearScreen> {
                                   Column(
                                     children: [
                                       Text(
-                                        '${student.fname} ${student.lname}',
+                                        '${student.firstName} ${student.lastName}',
                                         style: const TextStyle(
                                           fontSize: 24.0,
                                           fontWeight: FontWeight.bold,
