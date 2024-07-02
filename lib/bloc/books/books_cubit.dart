@@ -10,12 +10,13 @@ import 'books_state.dart';
 class BookCubit extends Cubit<BookState> {
   BookCubit() : super(BookLoading());
 
-  Future<void> getBooks() async {
+  Future<void> getBooks(int form, int subject) async {
     try {
        final token = await getTokenFromSharedPreferences();
       final response = await http.get(
-        Uri.parse('$baseUrl/api/books/all'),
-        headers: {'Authorization': 'Bearer $token'},
+        // Uri.parse('$baseUrl/api/books/all'),
+        Uri.parse('$baseUrl/api/books/filter/?form=$form&subject=$subject'),
+        headers: {'Authorization': 'Bearer $token', "accept": "application/json"},
       );
 
       if (response.statusCode == 200) {

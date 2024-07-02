@@ -20,7 +20,7 @@ class StreamBloc extends Bloc<StreamEvent, StreamState> {
         final response = await http.get(
           Uri.parse('$baseUrl/api/streams/all/'),
           // Uri.parse('https://webhook.site/88dceb9e-39ec-4f4b-a7c0-fc26beb9cefc'),
-          headers: {'Authorization': 'Bearer $token'},
+          headers: {'Authorization': 'Bearer $token', "accept": "application/json"},
         );
 
         print(response.body);

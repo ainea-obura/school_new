@@ -8,13 +8,17 @@ import 'assign_book_screen/assign_success_page.dart';
 class clearConfirm extends StatefulWidget {
   final String bookName;
   final String bookNo;
+  final int studenId;
+  final int bookId;
   final int assignId;
 
   const clearConfirm({
     Key? key,
     required this.bookName,
     required this.bookNo,
+    required this.studenId,
     required this.assignId,
+    required this.bookId,
   }) : super(key: key);
 
   @override
@@ -80,7 +84,7 @@ class _clearConfirmState extends State<clearConfirm> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Book Name: ${widget.bookName}',
+                              'Book Title: ${widget.bookName}',
                               style: const TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
@@ -102,7 +106,7 @@ class _clearConfirmState extends State<clearConfirm> {
                     ElevatedButton(
                       onPressed: () {
                         // final clearCubit = context.read<ClearCubit>();
-                        clearCubit.clearAssignment(widget.assignId);
+                        clearCubit.clearAssignment(widget.studenId, widget.assignId);
                       },
                       child: const Text('Confirm'),
                     ),

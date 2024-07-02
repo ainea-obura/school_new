@@ -18,9 +18,9 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       try {
         final token = await getTokenFromSharedPreferences();
         final response = await http.get(
-          // Uri.parse('$baseUrl/api/subjects/all/'),
-          Uri.parse('https://webhook.site/88dceb9e-39ec-4f4b-a7c0-fc26beb9cefc'),
-          headers: {'Authorization': 'Bearer $token'},
+          Uri.parse('$baseUrl/api/subjects/all/'),
+          // Uri.parse('https://webhook.site/88dceb9e-39ec-4f4b-a7c0-fc26beb9cefc'),
+          headers: {'Authorization': 'Bearer $token', "accept": "application/json"},
         );
 
         print(response.body);

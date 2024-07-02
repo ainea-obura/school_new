@@ -18,14 +18,14 @@ import 'package:school_new/widgets/app_bar/custom_app_bar.dart';
 import 'package:school_new/widgets/custom_icon_button.dart';
 
 class StudentSearchScreen extends StatefulWidget {
-  final StreamModel selectedStream;
+  // final StreamModel selectedStream;
   final SubjectModel selectedSubject;
   final String selectedForm;
   
   //const StudentSearchScreen({Key? key}) : super(key: key);
    const StudentSearchScreen({
     super.key,
-    required this.selectedStream,
+    // required this.selectedStream,
     required this.selectedSubject,
     required this.selectedForm,
   });
@@ -217,6 +217,7 @@ final _studentController = TextEditingController();
                                           builder: (context) => AssignBookScreen(
                                             student: student,
                                             subject: widget.selectedSubject,
+                                            form: widget.selectedForm,
                                           ),
                                         ),
                                       );

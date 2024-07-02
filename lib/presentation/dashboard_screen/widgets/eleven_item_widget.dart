@@ -1,19 +1,75 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../constants.dart';
 import '../../student_search_clear_screen/student_search_clear_screen.dart';
-import '../models/eleven_item_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as fs;
 import 'package:school_new/core/app_export.dart';
 
+import 'package:http/http.dart' as http;
+
 // ignore: must_be_immutable
-class ElevenItemWidget extends StatelessWidget {
+class ElevenItemWidget extends StatefulWidget {
   ElevenItemWidget({
     Key? key,
   }) : super(
           key: key,
         );
 
-  // ElevenItemModel elevenItemModelObj;
+  @override
+  State<ElevenItemWidget> createState() => _ElevenItemWidgetState();
+}
 
+class _ElevenItemWidgetState extends State<ElevenItemWidget> {
+
+   bool _loggingOut = false;
+
+  Future<String> getTokenFromSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('access') ?? '';
+  }
+  Future<String> getRefreshTkn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('refresh') ?? '';
+  }
+
+  Future<void> logout() async {
+
+     setState(() {
+      _loggingOut = true; 
+    });
+    
+    final token = await getTokenFromSharedPreferences();
+    final refresh = await getRefreshTkn();
+    
+    var url = Uri.parse('$baseUrl/api/auth/logout/');
+
+    var response = await http.post(
+      url,
+      headers: {'Authorization': 'Bearer $token'},
+      body: json.encode({"refresh_token": refresh}),
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 205) {
+      // Successful logout, navigate to login page
+      // if (context.mounted)Navigator.of(context).pushReplacementNamed('/login'); 
+      if (context.mounted) {
+        Navigator.of(context).pushReplacementNamed(AppRoutes.loginScreen);
+      }
+    } else {
+      // Logout failed, handle the error
+      print('Logout failed: ${response.reasonPhrase}');
+      // You can show an error message or handle the situation accordingly
+    }
+    setState(() {
+      _loggingOut = false; // Reset the flag after logout process completes
+    });
+  }
+
+  // ElevenItemModel elevenItemModelObj;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -98,27 +154,27 @@ class ElevenItemWidget extends StatelessWidget {
                 child: Container(
                   width: 100, // Adjust the width as needed
                   height: 100,
-                  child: Card(
-                            child: InkWell(
-                              onTap: () {
-                                // logout(); // Call the logout function on tap
-                              },
-                              child: const Center(child: Text('Logout')),
-                            ),
-                          ),
-                  //   child: _loggingOut
-                  //       ? const Center(
-                  //           child:
-                  //               CircularProgressIndicator(), // Show progress indicator when logging out
-                  //         )
-                  //       : Card(
+                  // child: Card(
                   //           child: InkWell(
                   //             onTap: () {
-                  //               logout(); // Call the logout function on tap
+                  //               // logout(); // Call the logout function on tap
                   //             },
                   //             child: const Center(child: Text('Logout')),
                   //           ),
                   //         ),
+                    child: _loggingOut
+                        ? const Center(
+                            child:
+                                CircularProgressIndicator(), // Show progress indicator when logging out
+                          )
+                        : Card(
+                            child: InkWell(
+                              onTap: () {
+                                logout(); // Call the logout function on tap
+                              },
+                              child: const Center(child: Text('Logout')),
+                            ),
+                          ),
                 ),
               ),
             ),
@@ -126,36 +182,6 @@ class ElevenItemWidget extends StatelessWidget {
         ),
       ],
     );
-    // return Container(
-    //   padding: EdgeInsets.symmetric(
-    //     horizontal: 19.h,
-    //     vertical: 6.v,
-    //   ),
-    //   decoration: BoxDecoration(
-    //     image: DecorationImage(
-    //       image: fs.Svg(
-    //         ImageConstant.imgGroup11,
-    //       ),
-    //       fit: BoxFit.cover,
-    //     ),
-    //   ),
-    //   child: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     mainAxisAlignment: MainAxisAlignment.end,
-    //     children: [
-    //       SizedBox(height: 12.v),
-    //       // CustomImageView(
-    //       //   imagePath: elevenItemModelObj?.assignBooksImage,
-    //       //   height: 29.v,
-    //       //   width: 39.h,
-    //       // ),
-    //       // SizedBox(height: 19.v),
-    //       // Text(
-    //       //   elevenItemModelObj.playQuizText!,
-    //       //   style: CustomTextStyles.bodyLargeBlack90018,
-    //       // ),
-    //     ],
-    //   ),
-    // );
+   
   }
 }

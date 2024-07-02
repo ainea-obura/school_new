@@ -63,7 +63,7 @@ class _ClearPageState extends State<ClearPage> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Text('Book No: ${studentAssigned[index].book.toString()}'),
+                                      Text('Book No: ${studentAssigned[index].bookNo.toString()}'),
                                       // Text(
                                       //     'Class: ${student.form} ${student.stream}'),
                                     ],
@@ -84,7 +84,9 @@ class _ClearPageState extends State<ClearPage> {
                     MaterialPageRoute(
                       builder: (context) => clearConfirm(
                         bookName: _selectedStudentAssigned!.book.toString(),
-                        bookNo: _selectedStudentAssigned!.book.toString(),
+                        bookNo: _selectedStudentAssigned!.bookNo.toString(),
+                        studenId: _selectedStudentAssigned!.student,
+                        bookId: _selectedStudentAssigned!.id,
                         assignId: _selectedStudentAssigned!.id,
                       ),
                     ),

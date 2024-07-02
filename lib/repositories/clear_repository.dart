@@ -6,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 
 class ClearRepository {
-  Future<String> clearAssignment(int assignId) async {
-    final String apiUrl = '$baseUrl/api/assignments/clear/$assignId';
+  Future<String> clearAssignment(int studentId, int assignId) async {
+    final String apiUrl = '$baseUrl/api/assigned-books/clear/$studentId/$assignId/';
     final token = await getTokenFromSharedPreferences();
 
     final response = await http.delete(
@@ -18,7 +18,7 @@ class ClearRepository {
       },
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 204) {
       return "Cleared successfully";
     } else {
       throw Exception("Failed to clear assignment: ${response.statusCode}");

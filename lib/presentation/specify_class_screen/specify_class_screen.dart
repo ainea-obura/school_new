@@ -35,21 +35,21 @@ class _SpecifyClassScreenState extends State<SpecifyClassScreen> {
   // List of available form options
   List<String> formOptions = ['Form 1', 'Form 2', 'Form 3', 'Form 4'];
 
-  late StreamBloc _streamBloc;
+  // late StreamBloc _streamBloc;
   late SubjectBloc _subjectBloc;
 
-  StreamModel? _selectedStream;
+  // StreamModel? _selectedStream;
   SubjectModel? _selectedSubject;
 
   @override
   void initState() {
     super.initState();
-    _streamBloc = BlocProvider.of<StreamBloc>(context);
-    _streamBloc.add(LoadStreams());
+    // _streamBloc = BlocProvider.of<StreamBloc>(context);
+    // _streamBloc.add(LoadStreams());
     _subjectBloc = BlocProvider.of<SubjectBloc>(context);
     _subjectBloc.add(LoadSubjects());
 
-    _selectedStream = null;
+    // _selectedStream = null;
     _selectedSubject = null;
   }
 
@@ -135,112 +135,52 @@ class _SpecifyClassScreenState extends State<SpecifyClassScreen> {
               }),
           SizedBox(height: 21.v),
 
-          Align(
-              alignment: Alignment.centerLeft,
-              child: Text("lbl_select_stream".tr,
-                  style: theme.textTheme.bodySmall)),
-          SizedBox(height: 8.v),
-          //    BlocBuilder<StreamBloc, StreamState>(
-          //   builder: (context, state) {
-          //     if (state is StreamLoading) {
-          //       return Center(child: CircularProgressIndicator());
-          //     } else if (state is StreamLoaded) {
-          //       final streams = state.streams;
-          //       return DropdownButton<StreamModel>(
-          //         value: null, // Initially selected value
-          //         items: streams
-          //             .map((stream) => DropdownMenuItem<StreamModel>(
-          //                   value: stream,
-          //                   child: Text(stream.name),
-          //                 ))
-          //             .toList(),
-          //         onChanged: (stream) {
-          //           // Handle selected stream
-          //           print('Selected stream: ${stream!.name}');
-          //         },
-          //       );
-          //     } else if (state is StreamError) {
-          //       return Text(state.error);
-          //     } else {
-          //       return Text('Something went wrong!');
-          //     }
+          // Align(
+          //     alignment: Alignment.centerLeft,
+          //     child: Text("lbl_select_stream".tr,
+          //         style: theme.textTheme.bodySmall)),
+          // SizedBox(height: 8.v),
+
+          // BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
+          //   selector: (state) => state.specifyClassModelObj,
+          //   builder: (context, specifyClassModelObj) {
+          //     return BlocBuilder<StreamBloc, StreamState>(
+          //       builder: (context, state) {
+          //         if (state is StreamLoading) {
+          //           return const Center(child: CircularProgressIndicator());
+          //         } else if (state is StreamLoaded) {
+          //           final streams = state.streams;
+          //           return DropdownButtonFormField<StreamModel>(
+          //             value: _selectedStream,
+          //             items: streams
+          //                 .map((stream) => DropdownMenuItem<StreamModel>(
+          //                       value: stream,
+          //                       child: Text(stream.name),
+          //                     ))
+          //                 .toList(),
+          //             onChanged: (stream) {
+          //               setState(() {
+          //                 _selectedStream = stream;
+          //               });
+          //               print('Selected stream: ${stream!.name}');
+          //             },
+          //           );
+          //         } else if (state is StreamError) {
+          //           return Text(state.error);
+          //         } else {
+          //           return const Text('Something went wrong!');
+          //         }
+          //       },
+          //     );
           //   },
           // ),
-
-BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
-  selector: (state) => state.specifyClassModelObj,
-  builder: (context, specifyClassModelObj) {
-    return BlocBuilder<StreamBloc, StreamState>(
-      builder: (context, state) {
-        if (state is StreamLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is StreamLoaded) {
-          final streams = state.streams;
-          return DropdownButtonFormField<StreamModel>(
-            value: _selectedStream,
-            items: streams
-                .map((stream) => DropdownMenuItem<StreamModel>(
-                      value: stream,
-                      child: Text(stream.name),
-                    ))
-                .toList(),
-            onChanged: (stream) {
-              setState(() {
-                _selectedStream = stream;
-              });
-              print('Selected stream: ${stream!.name}');
-            },
-          );
-        } else if (state is StreamError) {
-          return Text(state.error);
-        } else {
-          return const Text('Something went wrong!');
-        }
-      },
-    );
-  },
-),
-          // BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
-          //     selector: (state) => state.specifyClassModelObj,
-          //     builder: (context, specifyClassModelObj) {
-          //       return BlocBuilder<StreamBloc, StreamState>(
-          //         builder: (context, state) {
-          //           if (state is StreamLoading) {
-          //             return const Center(child: CircularProgressIndicator());
-          //           } else if (state is StreamLoaded) {
-          //             final streams = state.streams;
-          //             return DropdownButtonFormField<StreamModel>(
-          //               value: null, // Initially selected value
-          //               items: streams
-          //                   .map((stream) => DropdownMenuItem<StreamModel>(
-          //                         value: stream,
-          //                         child: Text(stream.name),
-          //                       ))
-          //                   .toList(),
-          //               onChanged: (stream) {
-          //                 setState(() {
-          //                   _selectedStream = stream!;
-          //                 });
-          //                 // Handle selected stream
-          //                 print('Selected stream: ${stream!.name}');
-          //               },
-          //             );
-          //           } else if (state is StreamError) {
-          //             return Text(state.error);
-          //           } else {
-          //             return const Text('Something went wrong!');
-          //           }
-          //         },
-          //       );
-          //     }),
-          SizedBox(height: 21.v),
+          
+          // SizedBox(height: 21.v),
           Align(
               alignment: Alignment.centerLeft,
               child: Text("lbl_select_subject".tr,
                   style: theme.textTheme.bodySmall)),
           SizedBox(height: 6.v),
-
-
 
           BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
               selector: (state) => state.specifyClassModelObj,
@@ -274,19 +214,18 @@ BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
                     }
                   },
                 );
-
               }),
-          
+
           SizedBox(height: 57.v),
           CustomElevatedButton(
-            onPressed: ()  {
+              onPressed: () {
                 // Check if both stream and subject are selected
-                if (_selectedStream != null && _selectedSubject != null) {
+                if (_selectedSubject != null) {
                   // Navigate to the student search page and pass selected options as arguments
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => StudentSearchScreen(
-                        selectedStream: _selectedStream!,
+                        // selectedStream: _selectedStream!,
                         selectedSubject: _selectedSubject!,
                         selectedForm: selectedForm,
                       ),
@@ -303,7 +242,7 @@ BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
                       return AlertDialog(
                         title: const Text('Selection Required'),
                         content: const Text(
-                            'Please select both stream and subject.'),
+                            'Please select subject.'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('OK'),

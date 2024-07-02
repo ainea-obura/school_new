@@ -15,7 +15,7 @@ class StudentAssignedCubit extends Cubit<StudentAssignedState> {
        final token = await getTokenFromSharedPreferences();
       final response = await http.get(
         Uri.parse('$baseUrl/api/books/assigned-books/student/$student_id'),
-        headers: {'Authorization': 'Bearer $token'},
+        headers: {'Authorization': 'Bearer $token', "accept": "application/json"},
       );
 print(response.body);
       if (response.statusCode == 200) {
