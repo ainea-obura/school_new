@@ -1,7 +1,9 @@
+import 'package:school_new/bloc/form/form_bloc.dart';
 import 'package:school_new/bloc/subject_bloc.dart';
 
-import '../../bloc/stream_bloc.dart';
-import '../../models/stream_model.dart';
+// import '../../bloc/stream_bloc.dart';
+import '../../models/form_model.dart';
+// import '../../models/stream_model.dart';
 import '../../models/subject_model.dart';
 import '../student_search_screen/student_search_screen.dart';
 import 'bloc/specify_class_bloc.dart';
@@ -11,7 +13,7 @@ import 'package:school_new/core/app_export.dart';
 import 'package:school_new/widgets/app_bar/appbar_leading_image.dart';
 import 'package:school_new/widgets/app_bar/appbar_title.dart';
 import 'package:school_new/widgets/app_bar/custom_app_bar.dart';
-import 'package:school_new/widgets/custom_drop_down.dart';
+// import 'package:school_new/widgets/custom_drop_down.dart';
 import 'package:school_new/widgets/custom_elevated_button.dart';
 
 class SpecifyClassScreen extends StatefulWidget {
@@ -30,25 +32,30 @@ class SpecifyClassScreen extends StatefulWidget {
 }
 
 class _SpecifyClassScreenState extends State<SpecifyClassScreen> {
-  String selectedForm = 'Form 1'; // Default selection
+  // String selectedForm = 'Form 1'; // Default selection
 
   // List of available form options
-  List<String> formOptions = ['Form 1', 'Form 2', 'Form 3', 'Form 4'];
+  // List<String> formOptions = ['Form 1', 'Form 2', 'Form 3', 'Form 4'];
 
   // late StreamBloc _streamBloc;
   late SubjectBloc _subjectBloc;
+  late FormBloc _formBloc;
 
   // StreamModel? _selectedStream;
   SubjectModel? _selectedSubject;
+  FormModel? _selectedForm;
 
   @override
   void initState() {
     super.initState();
     // _streamBloc = BlocProvider.of<StreamBloc>(context);
     // _streamBloc.add(LoadStreams());
+    _formBloc = BlocProvider.of<FormBloc>(context);
+    _formBloc.add(LoadForms());
     _subjectBloc = BlocProvider.of<SubjectBloc>(context);
     _subjectBloc.add(LoadSubjects());
 
+_selectedForm = null;
     // _selectedStream = null;
     _selectedSubject = null;
   }
@@ -118,20 +125,49 @@ class _SpecifyClassScreenState extends State<SpecifyClassScreen> {
           BlocSelector<SpecifyClassBloc, SpecifyClassState, SpecifyClassModel?>(
               selector: (state) => state.specifyClassModelObj,
               builder: (context, specifyClassModelObj) {
-                return DropdownButtonFormField<String>(
-                  value: selectedForm,
-                  items: formOptions.map((String form) {
-                    return DropdownMenuItem<String>(
-                      value: form,
-                      child: Text(form),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedForm = newValue!;
-                    });
+                return BlocBuilder<FormBloc, FormsState>(
+                  builder: (context, state) {
+                    if (state is FormLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is FormLoaded) {
+                      final forms = state.forms;
+                      return DropdownButtonFormField<FormModel>(
+                        value: null, // Initially selected value
+                        items: forms
+                            .map((forms) => DropdownMenuItem<FormModel>(
+                                  value: forms,
+                                  child: Text(forms.name),
+                                ))
+                            .toList(),
+                        onChanged: (forms) {
+                          setState(() {
+                            _selectedForm = forms!;
+                          });
+                          // Handle selected stream
+                          print('Selected form: ${forms!.name}');
+                        },
+                      );
+                    } else if (state is FormError) {
+                      return Text(state.error);
+                    } else {
+                      return const Text('Something went wrong!');
+                    }
                   },
                 );
+                // return DropdownButtonFormField<String>(
+                //   value: selectedForm,
+                //   items: formOptions.map((String form) {
+                //     return DropdownMenuItem<String>(
+                //       value: form,
+                //       child: Text(form),
+                //     );
+                //   }).toList(),
+                //   onChanged: (String? newValue) {
+                //     setState(() {
+                //       selectedForm = newValue!;
+                //     });
+                //   },
+                // );
               }),
           SizedBox(height: 21.v),
 
@@ -227,7 +263,7 @@ class _SpecifyClassScreenState extends State<SpecifyClassScreen> {
                       builder: (context) => StudentSearchScreen(
                         // selectedStream: _selectedStream!,
                         selectedSubject: _selectedSubject!,
-                        selectedForm: selectedForm,
+                        selectedForm: _selectedForm!.name,
                       ),
                     ),
                   );

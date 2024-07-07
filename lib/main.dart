@@ -5,6 +5,7 @@ import 'package:school_new/presentation/assign_book_screen/bloc/assign_book_bloc
 import 'bloc/assign/assign_cubit.dart';
 import 'bloc/books/books_cubit.dart';
 import 'bloc/clear/clear_cubit.dart';
+import 'bloc/form/form_bloc.dart';
 import 'bloc/stream_bloc.dart';
 import 'bloc/student_assigned/student_assigned_cubit.dart';
 import 'bloc/subject_bloc.dart';
@@ -50,6 +51,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SubjectBloc>(
           create: (context) => SubjectBloc(), // Provide your other blocs here
+        ),
+
+        BlocProvider<FormBloc>(
+          create: (context) => FormBloc(), // Provide your other blocs here
         ),
 
         BlocProvider<AssignBookBloc>(
