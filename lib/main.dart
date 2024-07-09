@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:school_new/presentation/assign_book_screen/bloc/assign_book_bloc.dart';
 import 'bloc/assign/assign_cubit.dart';
+import 'bloc/book/books_bloc.dart';
 import 'bloc/books/books_cubit.dart';
 import 'bloc/clear/clear_cubit.dart';
 import 'bloc/form/form_bloc.dart';
@@ -57,13 +58,17 @@ class MyApp extends StatelessWidget {
           create: (context) => FormBloc(), // Provide your other blocs here
         ),
 
+        BlocProvider<BooksBloc>(
+          create: (context) => BooksBloc(), // Provide your other blocs here
+        ),
+
         BlocProvider<AssignBookBloc>(
           create: (context) => AssignBookBloc(AssignBookState()), // Provide your other blocs here
         ),
         
-        BlocProvider(
-          create: (context) => BookCubit(),
-        ),
+        // BlocProvider(
+        //   create: (context) => BookCubit(),
+        // ),
 
         BlocProvider(
           create: (context) => AssignCubit( AssignmentRepository()),

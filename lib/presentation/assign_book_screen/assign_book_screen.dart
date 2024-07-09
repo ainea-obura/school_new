@@ -1,3 +1,5 @@
+import 'package:school_new/bloc/book/books_bloc.dart';
+
 import '../../bloc/assign/assign_cubit.dart';
 import '../../bloc/assign/assign_state.dart';
 import '../../bloc/books/books_cubit.dart';
@@ -35,6 +37,9 @@ class AssignBookScreen extends StatefulWidget {
 }
 
 class _AssignBookScreenState extends State<AssignBookScreen> {
+
+  late BooksBloc _booksBloc;
+
   BookModel? _selectedBook;
   late AssignCubit _assignCubit;
   final bookController = TextEditingController();
@@ -42,12 +47,19 @@ class _AssignBookScreenState extends State<AssignBookScreen> {
   @override
   void initState() {
     super.initState();
-    final bookCubit = BlocProvider.of<BookCubit>(context);
+    // final bookCubit = BlocProvider.of<BookCubit>(context);
+    _booksBloc = BlocProvider.of<BooksBloc>(context);
+    
     _assignCubit = BlocProvider.of<AssignCubit>(context);
     // bookCubit.getBooks(widget.form,widget.subject.id);
+    
     int formId = _mapFormToInt(widget.form);
     
-    bookCubit.getBooks(formId, widget.subject.id); 
+    // bookCubit.getBooks(formId, widget.subject.id); 
+
+
+    
+    _booksBloc.add(LoadBooks(form: formId, subject: widget.subject.id));
   }
 
   int _mapFormToInt(String form) {
@@ -163,84 +175,93 @@ class _AssignBookScreenState extends State<AssignBookScreen> {
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text("lbl_book_title".tr, style: theme.textTheme.bodySmall),
             SizedBox(height: 9.v),
-            Padding(
-              padding: EdgeInsets.only(right: 14.h),
-              child: BlocBuilder<BookCubit, BookState>(
-                builder: (context, state) {
-                  if (state is BookLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is BookLoaded) {
-                    final books = state.Books;
-                    final filteredBooks = books
-                        .where((book) => widget.subject.id == book.id)
-                        .toList();
-                    final List<DropdownMenuItem<String>> dropdownItems =
-                        filteredBooks.map((book) {
-                      return DropdownMenuItem(
-                        value: book.bookTitle,
-                        child: Text(book.bookTitle),
+             BlocBuilder<BooksBloc, BooksState>(
+                  builder: (context, state) {
+                    if (state is BooksLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is BooksLoaded) {
+                      final books = state.books;
+                      return DropdownButtonFormField<BookModel>(
+                        value: null, // Initially selected value
+                        items: books
+                            .map((books) => DropdownMenuItem<BookModel>(
+                                  value: books,
+                                  child: Text(books.bookTitle),
+                                ))
+                            .toList(),
+                        onChanged: (books) {
+                          setState(() {
+                            _selectedBook = books!;
+                          });
+                          // Handle selected stream
+                          print('Selected book: ${books!.bookTitle}');
+                        },
                       );
-                    }).toList();
-
-                    void onChanged(String? selectedBookName) {
-                      setState(() {
-                        _selectedBook = filteredBooks.firstWhere(
-                            (book) => book.bookTitle == selectedBookName);
-                        if (_selectedBook != null) {
-                          print('Selected Book: ${_selectedBook!.bookTitle}');
-                        }
-                      });
+                    } else if (state is BooksError) {
+                      return Text(state.error);
+                    } else {
+                      return const Text('Something went wrong!');
                     }
+                  },
+                ),
+            // Padding(
+            //   padding: EdgeInsets.only(right: 14.h),
+            //   child: BlocBuilder<BookCubit, BookState>(
+            //     builder: (context, state) {
+            //       if (state is BookLoading) {
+            //         return const Center(child: CircularProgressIndicator());
+            //       } else if (state is BookLoaded) {
+            //         final books = state.Books;
+            //         final filteredBooks = books
+            //             .where((book) => widget.subject.id == book.id)
+            //             .toList();
+            //         final List<DropdownMenuItem<String>> dropdownItems =
+            //             filteredBooks.map((book) {
+            //           return DropdownMenuItem(
+            //             value: book.bookTitle,
+            //             child: Text(book.bookTitle),
+            //           );
+            //         }).toList();
 
-                    // Map each Book name to its BookModel instance
-                    // final Map<String, BookModel> bookMap = {
-                    //   for (var book in books) book.name: book,
-                    // };
+            //         void onChanged(String? selectedBookName) {
+            //           setState(() {
+            //             _selectedBook = filteredBooks.firstWhere(
+            //                 (book) => book.bookTitle == selectedBookName);
+            //             if (_selectedBook != null) {
+            //               print('Selected Book: ${_selectedBook!.bookTitle}');
+            //             }
+            //           });
+            //         }
 
-                    // final List<DropdownMenuItem<String>> dropdownItems =
-                    //     bookMap.keys.map((bookName) {
-                    //   return DropdownMenuItem(
-                    //     value: bookName,
-                    //     child: Text(bookName),
-                    //   );
-                    // }).toList();
+                    
 
-                    // void onChanged(String? selectedBookName) {
-                    //   setState(() {
-                    //     _selectedBook = bookMap[selectedBookName!];
-                    //     if (_selectedBook != null) {
-                    //       print('Selected Book: ${_selectedBook!.name}');
-                    //     }
-                    //   });
-                    // }
-
-                    return Column(
-                      children: [
-                        DropdownButton<String>(
-                          items: dropdownItems,
-                          onChanged: onChanged,
-                          value: _selectedBook
-                              ?.bookTitle, // Set the selected value
-                          hint: const Text('Select a book'),
-                        ),
-                        // if (_selectedBook != null)
-                        //   Padding(
-                        //     padding: const EdgeInsets.all(16.0),
-                        //     child: Text(
-                        //       'Selected Book: ${_selectedBook!.name}',
-                        //       style: const TextStyle(fontSize: 18.0),
-                        //     ),
-                        //   ),
-                      ],
-                    );
-                  } else if (state is BookError) {
-                    return Center(child: Text(state.message));
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-            ),
+            //         return Column(
+            //           children: [
+            //             DropdownButton<String>(
+            //               items: dropdownItems,
+            //               onChanged: onChanged,
+            //               value: _selectedBook
+            //                   ?.bookTitle, // Set the selected value
+            //               hint: const Text('Select a book'),
+            //             ),
+            //             // if (_selectedBook != null)
+            //             //   Padding(
+            //             //     padding: const EdgeInsets.all(16.0),
+            //             //     child: Text(
+            //             //       'Selected Book: ${_selectedBook!.name}',
+            //             //       style: const TextStyle(fontSize: 18.0),
+            //             //     ),
+            //             //   ),
+            //           ],
+            //         );
+            //       } else if (state is BookError) {
+            //         return Center(child: Text(state.message));
+            //       } else {
+            //         return Container();
+            //       }
+            //     },
+            //   ),
+            // ),
             SizedBox(height: 14.v),
             Divider()
           ]),
@@ -312,7 +333,7 @@ class _AssignBookScreenState extends State<AssignBookScreen> {
                         // Get the selected book name
                         bookNo: bookController.text,
                         studentId: widget.student.id,
-                        subjectId: widget.subject.id,
+                        subjectId: _selectedBook!.id,
                       );
                     }
                   },

@@ -1,17 +1,17 @@
-import '../../models/book_model.dart';
+// import '../../models/book_model.dart';
 
-abstract class BookState {}
+// abstract class BookState {}
 
-class BookLoading extends BookState {}
+// class BookLoading extends BookState {}
 
-class BookLoaded extends BookState {
-  final List<BookModel> Books;
+// class BookLoaded extends BookState {
+//   final List<BookModel> books;
 
-  BookLoaded(this.Books);
-}
+//   BookLoaded(this.books);
+// }
 
-class BookError extends BookState {
-  final String message;
+// class BookError extends BookState {
+//   final String message;
 
-  BookError(this.message);
-}
+//   BookError(this.message);
+// }
