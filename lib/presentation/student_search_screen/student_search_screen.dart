@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 import '../../bloc/student_bloc.dart';
+import '../../models/form_model.dart';
 import '../../models/stream_model.dart';
 import '../../models/students_model.dart';
 import '../../models/subject_model.dart';
@@ -20,7 +21,7 @@ import 'package:school_new/widgets/custom_icon_button.dart';
 class StudentSearchScreen extends StatefulWidget {
   // final StreamModel selectedStream;
   final SubjectModel selectedSubject;
-  final String selectedForm;
+  final FormModel selectedForm;
   
   //const StudentSearchScreen({Key? key}) : super(key: key);
    const StudentSearchScreen({

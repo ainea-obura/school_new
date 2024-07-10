@@ -4,6 +4,7 @@ import '../../bloc/assign/assign_cubit.dart';
 import '../../bloc/assign/assign_state.dart';
 import '../../bloc/books/books_cubit.dart';
 import '../../bloc/books/books_state.dart';
+import '../../models/form_model.dart';
 import '../../models/students_model.dart';
 import '../../models/subject_model.dart';
 import '../../models/book_model.dart';
@@ -20,7 +21,7 @@ import 'package:school_new/widgets/custom_elevated_button.dart';
 class AssignBookScreen extends StatefulWidget {
   final Student student; // Received student object from the previous page
   final SubjectModel subject;
-  final String form;
+  final FormModel form;
   const AssignBookScreen(
       {Key? key, required this.student, required this.subject, required this.form});
 
@@ -53,29 +54,29 @@ class _AssignBookScreenState extends State<AssignBookScreen> {
     _assignCubit = BlocProvider.of<AssignCubit>(context);
     // bookCubit.getBooks(widget.form,widget.subject.id);
     
-    int formId = _mapFormToInt(widget.form);
+    // int formId = _mapFormToInt(widget.form);
     
     // bookCubit.getBooks(formId, widget.subject.id); 
 
 
     
-    _booksBloc.add(LoadBooks(form: formId, subject: widget.subject.id));
+    _booksBloc.add(LoadBooks(form: widget.form.id, subject: widget.subject.id));
   }
 
-  int _mapFormToInt(String form) {
-    switch (form) {
-      case 'Form 1':
-        return 1;
-      case 'Form 2':
-        return 2;
-      case 'Form 3':
-        return 3;
-      case 'Form 4':
-        return 4;
-      default:
-        throw Exception('Unknown form: $form');
-    }
-  }
+  // int _mapFormToInt(String form) {
+  //   switch (form) {
+  //     case 'Form 1':
+  //       return 1;
+  //     case 'Form 2':
+  //       return 2;
+  //     case 'Form 3':
+  //       return 3;
+  //     case 'Form 4':
+  //       return 4;
+  //     default:
+  //       throw Exception('Unknown form: $form');
+  //   }
+  // }
   
 
   @override

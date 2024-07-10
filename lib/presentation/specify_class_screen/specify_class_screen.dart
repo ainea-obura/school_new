@@ -263,7 +263,7 @@ _selectedForm = null;
                       builder: (context) => StudentSearchScreen(
                         // selectedStream: _selectedStream!,
                         selectedSubject: _selectedSubject!,
-                        selectedForm: _selectedForm!.name,
+                        selectedForm: _selectedForm!,
                       ),
                     ),
                   );
