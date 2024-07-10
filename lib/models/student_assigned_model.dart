@@ -13,6 +13,7 @@ class StudentAssignedModel {
     int student;
     int book;
     String bookNo;
+    String bookTitle;
     DateTime assignedDate;
     String status;
     dynamic returnedDate;
@@ -23,6 +24,7 @@ class StudentAssignedModel {
         required this.student,
         required this.book,
         required this.bookNo,
+        required this.bookTitle,
         required this.assignedDate,
         required this.status,
         required this.returnedDate,
@@ -34,6 +36,7 @@ class StudentAssignedModel {
         student: json["student"],
         book: json["book"],
         bookNo: json["book_no"],
+        bookTitle: json["book_title"],
         assignedDate: DateTime.parse(json["assigned_date"]),
         status: json["status"],
         returnedDate: json["returned_date"],
@@ -45,6 +48,7 @@ class StudentAssignedModel {
         "student": student,
         "book": book,
         "book_no": bookNo,
+        "book_title": bookTitle,
         "assigned_date": "${assignedDate.year.toString().padLeft(4, '0')}-${assignedDate.month.toString().padLeft(2, '0')}-${assignedDate.day.toString().padLeft(2, '0')}",
         "status": status,
         "returned_date": returnedDate,
@@ -53,40 +57,3 @@ class StudentAssignedModel {
 }
 
 
-// class StudentAssignedModel {
-//   final int id;
-//   final String uuid;
-//   final String bookName;
-//   final String bookNo;
-//   final int userId;
-//   final int studentId;
-//   final int assigned;
-//   final DateTime createdAt;
-//   final DateTime updatedAt;
-
-//   StudentAssignedModel({
-//     required this.id,
-//     required this.uuid,
-//     required this.bookName,
-//     required this.bookNo,
-//     required this.userId,
-//     required this.studentId,
-//     required this.assigned,
-//     required this.createdAt,
-//     required this.updatedAt,
-//   });
-
-//   factory StudentAssignedModel.fromJson(Map<String, dynamic> json) {
-//     return StudentAssignedModel(
-//       id: json['id'],
-//       uuid: json['uuid'],
-//       bookName: json['book_name'],
-//       bookNo: json['book_no'],
-//       userId: json['user_id'],
-//       studentId: json['student_id'],
-//       assigned: json['assigned'],
-//       createdAt: DateTime.parse(json['created_at']),
-//       updatedAt: DateTime.parse(json['updated_at']),
-//     );
-//   }
-// }

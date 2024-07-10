@@ -201,7 +201,7 @@ final _studentController = TextEditingController();
                                       ),
                                       Text('Adm No: ${student.admNo}'),
                                       Text(
-                                          'Class: ${student.form} ${student.stream}'),
+                                          'Class: ${student.formName} ${student.streamName}'),
                                     ],
                                   ),
                                   Radio(

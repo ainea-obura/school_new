@@ -57,7 +57,7 @@ class _ClearPageState extends State<ClearPage> {
                                   Column(
                                     children: [
                                       Text(
-                                        studentAssigned[index].book.toString(),
+                                        studentAssigned[index].bookTitle,
                                         style: const TextStyle(
                                           fontSize: 24.0,
                                           fontWeight: FontWeight.bold,
@@ -83,7 +83,7 @@ class _ClearPageState extends State<ClearPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => clearConfirm(
-                        bookName: _selectedStudentAssigned!.book.toString(),
+                        bookName: _selectedStudentAssigned!.bookTitle.toString(),
                         bookNo: _selectedStudentAssigned!.bookNo.toString(),
                         studenId: _selectedStudentAssigned!.student,
                         bookId: _selectedStudentAssigned!.id,

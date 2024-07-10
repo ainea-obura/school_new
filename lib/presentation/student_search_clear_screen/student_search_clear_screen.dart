@@ -172,7 +172,7 @@ class _StudentSearchClearScreenState extends State<StudentSearchClearScreen> {
                                       ),
                                       Text('Adm No: ${student.admNo}'),
                                       Text(
-                                          'Class: ${student.form} ${student.stream}'),
+                                          'Class: ${student.formName} ${student.streamName}'),
                                     ],
                                   ),
                                   Radio(

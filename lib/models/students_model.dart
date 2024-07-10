@@ -15,7 +15,9 @@ class Student {
     String lastName;
     dynamic dob;
     int form;
+    dynamic formName;
     int stream;
+    dynamic streamName;
     dynamic medicalCondition;
     dynamic role;
     dynamic clubsAndSociety;
@@ -30,7 +32,9 @@ class Student {
         required this.lastName,
         required this.dob,
         required this.form,
+        required this.formName,
         required this.stream,
+        required this.streamName,
         required this.medicalCondition,
         required this.role,
         required this.clubsAndSociety,
@@ -46,7 +50,9 @@ class Student {
         lastName: json["last_name"],
         dob: json["dob"],
         form: json["form"],
+        formName: json["form_name"],
         stream: json["stream"],
+        streamName: json["stream_name"],
         medicalCondition: json["medical_condition"],
         role: json["role"],
         clubsAndSociety: json["clubs_and_society"],
@@ -62,7 +68,9 @@ class Student {
         "last_name": lastName,
         "dob": dob,
         "form": form,
+        "form_name": formName,
         "stream": stream,
+        "stream_name": streamName,
         "medical_condition": medicalCondition,
         "role": role,
         "clubs_and_society": clubsAndSociety,
